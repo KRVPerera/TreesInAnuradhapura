@@ -167,6 +167,40 @@ $.fn.imagesLoaded = function( callback ) {
  * Copyright 2013, vukhanhtruong
  * http://www.bonchen.net
  */
+function parseVideoURL(url) {
+
+    function getParm(url, base) {
+        var re = new RegExp("(\\?|&)" + base + "\\=([^&]*)(&|$)");
+        var matches = url.match(re);
+        if (matches) {
+            return(matches[2]);
+        } else {
+            return("");
+        }
+    }
+
+    var retVal = {};
+    var matches;
+    var shortYoutubeRegExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+
+    if (url.indexOf("youtube.com/watch") != -1) {
+        retVal.provider = "youtube";
+        retVal.id = getParm(url, "v");
+        retVal.embed = '//www.youtube.com/embed/'+retVal.id+'?fs=0';
+    } else if (matches = url.match(shortYoutubeRegExp)) {
+        // console.log(matches[2]);
+        retVal.provider = "youtube";
+        retVal.id = matches[2];
+        retVal.embed = '//www.youtube.com/embed/'+retVal.id+'?fs=0';
+    } else if (matches = url.match(/vimeo.com\/(\d+)/)) {
+        retVal.provider = "vimeo";
+        retVal.id = matches[1];
+        retVal.embed = '//player.vimeo.com/video/'+retVal.id+'?fullscreen=0';
+    }
+
+    return(retVal);
+}
+
 $(function() {
     $.elastic_grid = {
         version: '1.0'
@@ -219,8 +253,21 @@ $(function() {
 
                 //initial default photo
                 imgObject = $('<img/>');
-                imgObject.attr('src', item.thumbnail[0]);
-                imgObject.attr('data-largesrc', item.large[0]);
+                var thumbURL = item.thumbnail[0];
+                var largeURL = item.large[0];
+
+                var video = parseVideoURL(largeURL);
+                if(video.provider == 'youtube' || video.provider == 'vimeo'){
+                    largeURL = false;
+
+                    imgObject.attr('data-video', video.embed);
+                }
+
+                imgObject.attr('src', thumbURL);
+                imgObject.attr('data-largesrc', largeURL);
+                imgObject.attr('alt', item.img_title[0]);
+                imgObject.attr('title', item.img_title[0]);
+                // imgObject.attr('title', item.title);
 
 
                 //initial hover direction
@@ -269,7 +316,7 @@ $(function() {
         // Adding a data-id attribute. Required by the Quicksand plugin:
         elem.attr('data-id',i);
 
-        elem.addClass('all');
+        elem.addClass(config.showAllText.toLowerCase().replace(' ','-'));
         $.each(tags,function(key,value){
             // Removing extra whitespace:
             value = $.trim(value);
@@ -324,6 +371,15 @@ $(function() {
             }
         });
 
+        localStorage.setItem("filter", true);
+        localStorage.setItem("filter-all", false);
+
+        if (filterVal === config.showAllText.toLowerCase().replace(' ','-')) {
+            localStorage.setItem("filter-all", true);
+        }
+
+        $body.animate( { scrollTop : $this.offset().top }, settings.speed );
+
         return false;
     });
 
@@ -351,7 +407,7 @@ $(function() {
                 html: text,
                 'data-filter': '.'+filter,
                 href:'#',
-                'class':'filter btn-warning btn-lg active btn-block',
+                'class':'filter',
             }).appendTo(li);
 
             li.appendTo(porfolio_filter);
@@ -419,7 +475,16 @@ $(function() {
                 var $item = $( this );
                 $item.data( 'offsetTop', $item.offset().top );
                 if( saveheight ) {
-                    $item.data( 'height', $item.height() );
+                    $item.find('img').load(function() {
+                        console.log($item.outerHeight());
+                        $item.data( 'height', $item.height());
+                    }).each(function() {
+                      if(this.complete) $(this).load();
+                    });
+
+                    setTimeout(function(){
+                        $item.data( 'height', $item.height());
+                    });
                 }
             } );
         }
@@ -459,6 +524,9 @@ $(function() {
                 //remove animate class
                 $item.removeClass('animate');
 
+                localStorage.setItem('filter', false);
+
+                getWinSize();
                 // check if item already opened
                 current === $item.index() ? hidePreview($(this)) : showPreview( $item );
                 return false;
@@ -477,7 +545,7 @@ $(function() {
 
             var preview = $.data( this, 'preview' ),
                 // item´s offset top
-                position = $item.data( 'offsetTop' );
+                position = $item[0].offsetTop; // $item.data( 'offsetTop' );
 
             scrollExtra = 0;
 
@@ -612,10 +680,14 @@ $(function() {
                     //relate photo
                     glarge = eldata.large;
                     gthumbs = eldata.thumbnail;
+                    imgTitle = eldata.img_title;
                     if(glarge.length == gthumbs.length && glarge.length > 0){
                         var ObjUl = $('<ul></ul>');
                         for (i = 0; i < gthumbs.length; i++)
                         {
+                            var thumbURL = gthumbs[i];
+                            var largeURL = glarge[i];
+
                             var Objli = $('<li></li>');
                             var ObjA = $('<a href="javascript:;;"></a>');
                             var ObjImg = $('<img/>');
@@ -624,8 +696,18 @@ $(function() {
                             if(i==0){
                                 ObjImg.addClass('selected');
                             }
-                            ObjImg.attr("src", gthumbs[i]);
-                            ObjImg.attr("data-large", glarge[i]);
+
+                            var video = parseVideoURL(largeURL);
+                            if(video.provider == 'youtube' || video.provider == 'vimeo'){
+                                largeURL = false;
+
+                                ObjImg.attr('data-video', video.embed);
+                            }
+
+                            ObjImg.attr("src", thumbURL);
+                            ObjImg.attr("data-large", largeURL);
+                            ObjImg.attr('alt', imgTitle[i]);
+                            ObjImg.attr('title', imgTitle[i]);
                             ObjA.append(ObjImg);
                             Objli.append(ObjA);
                             ObjUl.append(Objli);
@@ -637,13 +719,22 @@ $(function() {
                         carousel.append(ObjUl).find('.related_photo').bind('click', function(){
                             carousel.find('.selected').removeClass('selected');
                             $(this).addClass('selected');
-                            $largePhoto = $(this).data('large');
 
-                            $('<img/>').load(function(){
+                            $youtube = $(this).data('video');
+                            $largePhoto = $(this).data('large');
+                            $titlePhoto = $(this).attr('title');
+
+                            if($largePhoto && (typeof $youtube != undefined)){
+                                $('<img/>').load(function(){
+                                    self.$fullimage.find('iframe').fadeOut(500, function(){
+                                        self.$fullimage.find('img').fadeIn(500).attr('alt', $titlePhoto).attr('title', $titlePhoto).attr('src', $largePhoto);
+                                    })
+                                }).attr('alt', $titlePhoto).attr('title', $titlePhoto).attr('src', $largePhoto);
+                            }else{
                                 self.$fullimage.find('img').fadeOut(500, function(){
-                                    $(this).fadeIn(500).attr('src', $largePhoto);
-                                })
-                            }).attr('src', $largePhoto);
+                                    self.$fullimage.find('iframe').fadeIn(500).attr('src', $youtube);
+                                });
+                            }
                         });
                         self.$details.append('<div class="infosep"></div>');
                         self.$details.append(carousel);
@@ -656,15 +747,40 @@ $(function() {
                     // for smaller screens we don´t display the large image (the media query will hide the fullimage wrapper)
                     if( self.$fullimage.is( ':visible' ) ) {
                         this.$loading.show();
-                        $( '<img/>' ).load( function() {
-                            var $img = $( this );
-                            if( $img.attr( 'src' ) === self.$item.children('a').find('img').data( 'largesrc' ) ) {
-                                self.$loading.hide();
-                                self.$fullimage.find( 'img' ).remove();
-                                self.$largeImg = $img.fadeIn( 350 );
-                                self.$fullimage.append( self.$largeImg );
-                            }
-                        } ).attr( 'src', eldata.large[0] );
+
+                        var iframe = $('<iframe width="100%" height="100%" frameborder="0"></iframe>');
+                        var img = $( '<img/>' );
+                        self.$fullimage.append(iframe);
+                        self.$fullimage.append(img);
+
+                        var firstChild  = self.$item.children('a').find('img');
+                        var $youtube    = firstChild.data( 'video' );
+                        var $largePhoto = firstChild.data( 'largesrc' );
+                        if($largePhoto && (typeof $youtube != undefined)){
+                            img.load( function() {
+                                var $img = $( this );
+                                if( $img.attr( 'src' ) === $largePhoto ) {
+                                    self.$loading.hide();
+                                    // self.$fullimage.find('iframe, img').fadeOut(500, function(){
+                                    //     self.$fullimage.find('img').attr('src', $largePhoto);
+                                    // });
+                                    self.$fullimage.find( 'img' ).remove();
+                                    self.$largeImg = $img.fadeIn( 350 );
+                                    self.$fullimage.find('iframe').fadeOut(500, function(){
+                                        self.$fullimage.append( self.$largeImg );
+                                    });
+                                }
+                            } ).attr( 'src', eldata.large[0] );
+
+                        }else{
+                            self.$loading.hide();
+
+                            self.$fullimage.find('img').fadeOut(500, function(){
+                                // iframe.ready(function (){
+                                self.$fullimage.find('iframe').fadeIn(500).attr('src', $youtube);
+                                // });
+                            });
+                        }
                     }
 
                 }
@@ -746,17 +862,28 @@ $(function() {
 
             },
             positionPreview : function() {
-
+                // Last change here for offsetTop
                 // scroll page
                 // case 1 : preview height + item height fits in window´s height
                 // case 2 : preview height + item height does not fit in window´s height and preview height is smaller than window´s height
                 // case 3 : preview height + item height does not fit in window´s height and preview height is bigger than window´s height
-                var position = this.$item.data( 'offsetTop' ),
+
+                // console.log(this.$item.offset().top, this.$item[0].offsetTop, this.$item.data( 'offsetTop' ))
+
+                var position = this.$item[0].offsetTop,
                     previewOffsetT = this.$previewEl.offset().top - scrollExtra,
                     scrollVal = this.height + this.$item.data( 'height' ) + marginExpanded <= winsize.height ? position : this.height < winsize.height ? previewOffsetT - ( winsize.height - this.height ) : previewOffsetT;
 
-                $body.animate( { scrollTop : scrollVal }, settings.speed );
+                var isFilter = localStorage.getItem("filter");
+                var isFilterAll = localStorage.getItem("filter-all");
 
+                if(isFilter === "false" && !isFilterAll === "false") {
+                    $body.animate( { scrollTop : this.$item.offset().top }, settings.speed );
+                }
+
+                if(isFilterAll === "true") {
+                    $body.animate( { scrollTop : this.$item.data( 'offsetTop' ) }, settings.speed );
+                }
             },
             setTransition  : function() {
                 this.$previewEl.css( 'transition', 'height ' + settings.speed + 'ms ' + settings.easing );
@@ -772,14 +899,17 @@ $(function() {
         //     addItems : addItems
         // };
         $grid.imagesLoaded( function() {
-
-            // save item´s size and offset
-            saveItemInfo( true );
-            // get window´s size
-            getWinSize();
             // initialize some events
             initEvents();
 
+            // get window´s size
+            getWinSize();
+
+            // save item´s size and offset
+            saveItemInfo( true );
+
+            //init filter
+            localStorage.setItem("filter-all", true);
         } );
 
     }
