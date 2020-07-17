@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/TreesInAnuradhapura/static/css/main.5f361e03.chunk.css",
+    "main.js": "/TreesInAnuradhapura/static/js/main.c194cc02.chunk.js",
+    "main.js.map": "/TreesInAnuradhapura/static/js/main.c194cc02.chunk.js.map",
+    "runtime-main.js": "/TreesInAnuradhapura/static/js/runtime-main.052613d1.js",
+    "runtime-main.js.map": "/TreesInAnuradhapura/static/js/runtime-main.052613d1.js.map",
+    "static/js/2.b8bdd308.chunk.js": "/TreesInAnuradhapura/static/js/2.b8bdd308.chunk.js",
+    "static/js/2.b8bdd308.chunk.js.map": "/TreesInAnuradhapura/static/js/2.b8bdd308.chunk.js.map",
+    "index.html": "/TreesInAnuradhapura/index.html",
+    "precache-manifest.7693b30f1effb65c6c89cf9e09f4c953.js": "/TreesInAnuradhapura/precache-manifest.7693b30f1effb65c6c89cf9e09f4c953.js",
+    "service-worker.js": "/TreesInAnuradhapura/service-worker.js",
+    "static/css/main.5f361e03.chunk.css.map": "/TreesInAnuradhapura/static/css/main.5f361e03.chunk.css.map",
+    "static/js/2.b8bdd308.chunk.js.LICENSE.txt": "/TreesInAnuradhapura/static/js/2.b8bdd308.chunk.js.LICENSE.txt",
+    "static/media/logo.svg": "/TreesInAnuradhapura/static/media/logo.5d5d9eef.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.052613d1.js",
+    "static/js/2.b8bdd308.chunk.js",
+    "static/css/main.5f361e03.chunk.css",
+    "static/js/main.c194cc02.chunk.js"
+  ]
+}
