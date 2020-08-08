@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/TreesInAnuradhapura/precache-manifest.7693b30f1effb65c6c89cf9e09f4c953.js"
+  "/TreesInAnuradhapura/precache-manifest.8db2c48b3aa5240e3c6fa9cb93c181be.js"
 );
 
 self.addEventListener('message', (event) => {
