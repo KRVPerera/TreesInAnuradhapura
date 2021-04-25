@@ -1,25 +1,21 @@
-import logo from './logo.svg';
+import './App.css';
+import LandingPage from "./content/landingPage";
+import Footer from "./content/Footer";
+import NavBar from "./content/NavBar";
 import './App.css';
 
-function App() {
+const AppCss = {
+    backgroundColor: "#004D00",
+    color : "floralwhite"
+}
+
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+    <div className="App" style={AppCss}>
+        <NavBar />
+        <LandingPage />
+        <Footer />
     </div>
   );
 }
-
-export default App;
