@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function LandingPage(props) {
+export default function Landing(props) {
 
     return (
         <div className="container">
@@ -49,9 +49,6 @@ export default function LandingPage(props) {
                         <p><a href="http://opac.rjt.ac.lk/cgi-bin/koha/opac-detail.pl?biblionumber=51277">In Libraries :
                             Main Library, Rajarata University of Sri Lanka</a></p>
                     </div>
-                    <button className="btn btn-small btn-warning" type="button"
-                            onClick="location.href='treeList.html'">ඊළඟ...
-                    </button>
                 </div>
             </div>
         </div>
