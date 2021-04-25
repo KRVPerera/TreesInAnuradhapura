@@ -1,23 +1,22 @@
 {
   "files": {
-    "main.css": "/TreesInAnuradhapura/static/css/main.9d5b29c0.chunk.css",
-    "main.js": "/TreesInAnuradhapura/static/js/main.20eebe8d.chunk.js",
-    "main.js.map": "/TreesInAnuradhapura/static/js/main.20eebe8d.chunk.js.map",
-    "runtime-main.js": "/TreesInAnuradhapura/static/js/runtime-main.af642557.js",
-    "runtime-main.js.map": "/TreesInAnuradhapura/static/js/runtime-main.af642557.js.map",
-    "static/js/2.865ca716.chunk.js": "/TreesInAnuradhapura/static/js/2.865ca716.chunk.js",
-    "static/js/2.865ca716.chunk.js.map": "/TreesInAnuradhapura/static/js/2.865ca716.chunk.js.map",
-    "static/js/3.c70cd131.chunk.js": "/TreesInAnuradhapura/static/js/3.c70cd131.chunk.js",
-    "static/js/3.c70cd131.chunk.js.map": "/TreesInAnuradhapura/static/js/3.c70cd131.chunk.js.map",
+    "main.css": "/TreesInAnuradhapura/static/css/main.04fe477c.chunk.css",
+    "main.js": "/TreesInAnuradhapura/static/js/main.19b667c7.chunk.js",
+    "main.js.map": "/TreesInAnuradhapura/static/js/main.19b667c7.chunk.js.map",
+    "runtime-main.js": "/TreesInAnuradhapura/static/js/runtime-main.16897d92.js",
+    "runtime-main.js.map": "/TreesInAnuradhapura/static/js/runtime-main.16897d92.js.map",
+    "static/js/2.271e9a52.chunk.js": "/TreesInAnuradhapura/static/js/2.271e9a52.chunk.js",
+    "static/js/2.271e9a52.chunk.js.map": "/TreesInAnuradhapura/static/js/2.271e9a52.chunk.js.map",
+    "static/js/3.06bec07c.chunk.js": "/TreesInAnuradhapura/static/js/3.06bec07c.chunk.js",
+    "static/js/3.06bec07c.chunk.js.map": "/TreesInAnuradhapura/static/js/3.06bec07c.chunk.js.map",
     "index.html": "/TreesInAnuradhapura/index.html",
-    "static/css/main.9d5b29c0.chunk.css.map": "/TreesInAnuradhapura/static/css/main.9d5b29c0.chunk.css.map",
-    "static/js/2.865ca716.chunk.js.LICENSE.txt": "/TreesInAnuradhapura/static/js/2.865ca716.chunk.js.LICENSE.txt",
-    "static/media/logo.6ce24c58.svg": "/TreesInAnuradhapura/static/media/logo.6ce24c58.svg"
+    "static/css/main.04fe477c.chunk.css.map": "/TreesInAnuradhapura/static/css/main.04fe477c.chunk.css.map",
+    "static/js/2.271e9a52.chunk.js.LICENSE.txt": "/TreesInAnuradhapura/static/js/2.271e9a52.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.af642557.js",
-    "static/js/2.865ca716.chunk.js",
-    "static/css/main.9d5b29c0.chunk.css",
-    "static/js/main.20eebe8d.chunk.js"
+    "static/js/runtime-main.16897d92.js",
+    "static/js/2.271e9a52.chunk.js",
+    "static/css/main.04fe477c.chunk.css",
+    "static/js/main.19b667c7.chunk.js"
   ]
 }
