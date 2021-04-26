@@ -13,19 +13,22 @@ const AppCss = {
     color: "floralwhite"
 }
 
+const publicUrl = process.env.PUBLIC_URL;
+
 const routes = {
-    '/': () => <LanginPage />,
-    '/about': () => <AboutPage />
+    [publicUrl + '/']: () => <LanginPage/>,
+    [publicUrl + '/about']: () => <AboutPage/>
 }
 
 export default function App() {
+    console.log(routes)
     const match = useRoutes(routes)
     return (
 
         <div className="App" style={AppCss}>
             <Wrapper>
                 <NavBar/>
-                {match || <NotFound />}
+                {match || <NotFound/>}
             </Wrapper>
             <Footer/>
         </div>
