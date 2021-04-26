@@ -1,9 +1,8 @@
 import React from "react";
 
 export default function NavBar() {
-    const firstName = "KRV";
-    const lastName = "Perera";
-    const date = new Date();
+
+    const publicUrl = process.env.PUBLIC_URL;
 
     const styles = {
         color: "#FF8C00",
@@ -22,10 +21,10 @@ export default function NavBar() {
             <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
                 <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
                     <li className="nav-item active">
-                        <a className="nav-link" href="/">Home <span className="sr-only">(current)</span></a>
+                        <a className="nav-link" href={publicUrl + "/"}>Home <span className="sr-only">(current)</span></a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" href="/about">About</a>
+                        <a className="nav-link" href={publicUrl + "/about"}>About</a>
                     </li>
                 </ul>
                 <form className="form-inline my-2 my-lg-0">

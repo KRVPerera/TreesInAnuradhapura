@@ -16,15 +16,14 @@ const AppCss = {
 const publicUrl = process.env.PUBLIC_URL;
 
 const routes = {
-    [publicUrl + '/']: () => <LanginPage/>,
-    [publicUrl + '/about']: () => <AboutPage/>
+    [publicUrl + '/']: () => <LanginPage />,
+    [publicUrl + '/about']: () => <AboutPage />
 }
 
 export default function App() {
     console.log(routes)
     const match = useRoutes(routes)
     return (
-
         <div className="App" style={AppCss}>
             <Wrapper>
                 <NavBar/>
